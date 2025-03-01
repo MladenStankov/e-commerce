@@ -1,0 +1,178 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id               String   @id @default(uuid())
+  title            String
+  slug             String
+  description      String
+  priceInEuroCents Int
+  category         Category
+
+  productStocks ProductStock[]
+  productImages ProductImage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([slug])
+  @@index([slug])
+}
+
+model ProductImage {
+  id        String @id @default(uuid())
+  imagePath String
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model ProductStock {
+  id        String  @id @default(uuid())
+  size      Size
+  available Boolean
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  orderId String?
+  Order   Order?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id String @id @default(uuid())
+
+  productStockId String       @unique
+  ProductStock   ProductStock @relation(fields: [productStockId], references: [id])
+  userId         String
+  User           User         @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+enum Category {
+  MEN
+  WOMEN
+  KIDS
+}
+
+enum Size {
+  SIZE_16
+  SIZE_17
+  SIZE_18
+  SIZE_19
+  SIZE_20
+  SIZE_21
+  SIZE_22
+  SIZE_23
+  SIZE_24
+  SIZE_25
+  SIZE_26
+  SIZE_27
+  SIZE_28
+  SIZE_29
+  SIZE_30
+  SIZE_31
+  SIZE_32
+  SIZE_33
+  SIZE_34
+  SIZE_35
+  SIZE_36
+  SIZE_37
+  SIZE_38
+  SIZE_39
+  SIZE_40
+  SIZE_41
+  SIZE_42
+  SIZE_43
+  SIZE_44
+  SIZE_45
+  SIZE_46
+  SIZE_47
+  SIZE_48
+  SIZE_49
+  SIZE_50
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
+
+  role       String?
+  banned     Boolean?
+  banReason  String?
+  banExpires DateTime?
+  Order      Order[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  impersonatedBy String?
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
