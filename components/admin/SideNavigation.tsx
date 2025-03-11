@@ -54,7 +54,7 @@ export const adminNavigation: IAdminNavigation[] = [
 
 export default function SideNavigation() {
   return (
-    <div className="border-r-2 border-input min-h-screen h-screen left-0 overflow-hidden fixed w-64 max-md:hidden bg-secondary">
+    <div className="border-r-2 border-input min-h-screen h-screen left-0 overflow-hidden fixed w-64 max-md:hidden bg-muted z-10">
       <SideNavigationLinks />
     </div>
   );

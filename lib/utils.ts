@@ -7,7 +7,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getSizesForCategory(category: string): Size[] {
-  console.log("asd");
   switch (category) {
     case "MEN":
       return [

@@ -20,7 +20,7 @@ interface IProps {
 
 export default function ProductGrid({ title, products }: IProps) {
   return (
-    <section>
+    <section id={title} className="mx-2">
       <h2 className="text-2xl">{title}</h2>
       <div className="grid max-sm:grid-cols-2 max-md:grid-cols-3 max-lg:grid-cols-4 grid-cols-6  gap-3 mt-10 mx-2">
         {products.map((product) => {

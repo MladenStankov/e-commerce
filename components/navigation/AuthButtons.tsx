@@ -8,6 +8,7 @@ import { Session } from "@/lib/auth";
 import SignoutButton from "./SignoutButton";
 import { Lock } from "lucide-react";
 import ThemeButtons from "./ThemeButtons";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 interface IProps {
   session: Session | null;
@@ -26,7 +27,7 @@ export default function AuthButtons({ session }: IProps) {
       </>
     );
   return (
-    <Popover>
+    <Popover modal={true}>
       <PopoverTrigger>
         <Avatar>
           <AvatarImage
@@ -63,10 +64,12 @@ export default function AuthButtons({ session }: IProps) {
         <div className="space-y-4">
           {session.user.role === "admin" && (
             <Link href="/admin/dashboard" className="">
-              <Button className="w-full font-semibold">
-                <Lock />
-                Admin Dashboard
-              </Button>
+              <PopoverClose asChild>
+                <Button className="w-full font-semibold">
+                  <Lock />
+                  Admin Dashboard
+                </Button>
+              </PopoverClose>
             </Link>
           )}
           <SignoutButton />

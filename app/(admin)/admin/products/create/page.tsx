@@ -3,7 +3,7 @@ import React from "react";
 
 export default function AdminProductCreate() {
   return (
-    <div className="max-w-4xl">
+    <div className="w-full flex items-center justify-center">
       <CreateProductForm />
     </div>
   );

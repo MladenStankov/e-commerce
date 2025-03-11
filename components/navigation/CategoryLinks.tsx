@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
+import { usePathname } from "next/navigation";
 
 interface INavLink {
   title: string;
@@ -26,20 +29,23 @@ const navLinks: INavLink[] = [
 ];
 
 export default function CategoryLinks() {
+  const pathname = usePathname();
   return (
-    <ul className="text-lg w-full flex justify-center gap-4 font-medium overflow-x-auto">
-      {navLinks.map((link, _) => {
-        return (
-          <Link
-            key={_}
-            href={link.href}
-            className="w-fit h-full relative p-2 after:absolute after:h-[2px] after:bg-foreground 
+    !pathname.startsWith("/admin") && (
+      <ul className="text-lg w-full flex justify-center gap-4 font-medium overflow-x-auto">
+        {navLinks.map((link, _) => {
+          return (
+            <Link
+              key={_}
+              href={link.href}
+              className="w-fit h-full relative p-2 after:absolute after:h-[2px] after:bg-foreground 
              after:w-0 after:bottom-0 after:left-1/2 after:transition-all after:duration-300 hover:after:w-full hover:after:left-0"
-          >
-            {link.title}
-          </Link>
-        );
-      })}
-    </ul>
+            >
+              {link.title}
+            </Link>
+          );
+        })}
+      </ul>
+    )
   );
 }
