@@ -21,8 +21,6 @@ export type CartItemWithDetails = ICartItem & {
 export async function getCartItems(
   items: CartItem[]
 ): Promise<CartItemWithDetails[]> {
-  console.log(items);
-
   const cartItems = await prisma.product.findMany({
     where: {
       id: { in: items.map((item) => item.productId) },

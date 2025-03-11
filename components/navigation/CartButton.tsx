@@ -105,10 +105,7 @@ export default function CartButton({ title }: IProps) {
                   <div className="relative h-20 w-20 rounded-md overflow-hidden bg-muted">
                     {product.productImages?.[0] && (
                       <Image
-                        src={
-                          product.productImages[0].imagePath ||
-                          "/placeholder.svg"
-                        }
+                        src={product.productImages[0].imagePath}
                         alt={product.title}
                         fill
                         className="object-cover"

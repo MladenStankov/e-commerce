@@ -8,12 +8,10 @@ import { Category } from "@prisma/client";
 import SizeSelector from "@/components/products/SizeSelector";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-export default async function ProductPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const slug = params.slug;
+type Params = Promise<{ slug: string }>;
+
+export default async function ProductPage({ params }: { params: Params }) {
+  const { slug } = await params;
 
   const product = await prisma.product.findUnique({
     where: {
